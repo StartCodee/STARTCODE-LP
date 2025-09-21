@@ -103,7 +103,6 @@ const DemoModal = ({ isOpen, onClose }) => {
               disabled={isSubmitting}
               className="h-6 w-6 rounded-full"
             >
-              <X className="h-4 w-4" />
             </Button>
           </DialogTitle>
         </DialogHeader>

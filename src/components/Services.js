@@ -108,6 +108,7 @@ const Services = () => {
           <p className="text-muted-foreground mb-6">
             Need a custom solution? Let's discuss your project requirements.
           </p>
+          <a href="https://wa.me/62895331493506">
           <Button 
             size="lg"
             className="bg-[#5e4bf5] hover:bg-[#5038d4] text-white px-8 py-6 text-lg group transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#5e4bf5]/25"
@@ -115,6 +116,7 @@ const Services = () => {
             Get Free Consultation
             <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
           </Button>
+            </a>
         </div>
       </div>
     </section>
