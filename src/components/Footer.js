@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, ArrowRight, Instagram } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
 
 const Footer = () => {
@@ -46,9 +46,9 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: <Github className="h-5 w-5" />, href: "#", name: "GitHub" },
-    { icon: <Linkedin className="h-5 w-5" />, href: "#", name: "LinkedIn" },
-    { icon: <Twitter className="h-5 w-5" />, href: "#", name: "Twitter" }
+      { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com/company/startcodetech", name: "LinkedIn" },
+      { icon: <Instagram className="h-5 w-5" />, href: "https://www.instagram.com/startcodetech", name: "Instagram" },
+      { icon: <Phone className="h-5 w-5" />, href: "https://wa.me/62895331493506", name: "WhatsApp" },
   ];
 
   return (

@@ -9,6 +9,7 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+  const [language, setLanguage] = useState("en"); // default English
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,37 +25,33 @@ const Navbar = () => {
     { name: "Services", href: "#services" },
     { name: "Portfolio", href: "#portfolio" },
     { name: "Process", href: "#process" },
-    { name: "Contact", href: "#contact" }
+    { name: "Contact", href: "#contact" },
+  ];
+
+  const languages = [
+    { code: "en", label: "English", flag: "/assets/flags/eng.svg", available: true },
+    { code: "id", label: "Indonesia", flag: "/assets/flags/ind.png", available: false }, // belum tersedia
   ];
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm" 
-          : "bg-transparent"
-      }`}>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm"
+            : "bg-transparent"
+        }`}
+      >
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <div className="flex items-center space-x-2">
-              {/* <div className="w-8 h-8 bg-gradient-to-br from-[#5e4bf5] to-[#7c3aed] rounded-lg flex items-center justify-center">
-                <img 
-                  src="/scode.webp" 
-                  alt="StartCode Logo" 
-                  className="w-5 h-5"
-                />
-              </div> */}
-
-
-               <img
+              <img
                 src="/assets/scode.webp"
                 className="w-8 h-8"
                 style={{ borderRadius: "10px" }}
                 alt="Logo"
               />
-
-
               <span className="text-xl font-bold">StartCode</span>
             </div>
 
@@ -73,6 +70,7 @@ const Navbar = () => {
 
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center space-x-4">
+              {/* Theme toggle */}
               <Button
                 variant="ghost"
                 size="icon"
@@ -85,6 +83,25 @@ const Navbar = () => {
                   <Moon className="h-4 w-4" />
                 )}
               </Button>
+
+              {/* Language switch */}
+              <div className="flex items-center space-x-2">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => lang.available && setLanguage(lang.code)}
+                    disabled={!lang.available}
+                    className={`w-8 h-8 rounded-full overflow-hidden border ${
+                      lang.code === language
+                        ? "border-[#5e4bf5]" // highlight selected
+                        : "border-transparent"
+                    } ${!lang.available ? "opacity-40 cursor-not-allowed" : "hover:opacity-80"}`}
+                  >
+                    <img src={lang.flag} alt={lang.label} className="w-full h-full" />
+                  </button>
+                ))}
+              </div>
+
               <Button
                 onClick={() => setIsDemoModalOpen(true)}
                 className="bg-[#5e4bf5] hover:bg-[#5038d4] text-white px-6"
@@ -145,15 +162,33 @@ const Navbar = () => {
                 >
                   Request Demo
                 </Button>
+
+                {/* Mobile Language Switch */}
+                <div className="flex items-center space-x-2 mt-4">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => lang.available && setLanguage(lang.code)}
+                      disabled={!lang.available}
+                      className={`w-8 h-8 rounded-full overflow-hidden border ${
+                        lang.code === language
+                          ? "border-[#5e4bf5]"
+                          : "border-transparent"
+                      } ${!lang.available ? "opacity-40 cursor-not-allowed" : "hover:opacity-80"}`}
+                    >
+                      <img src={lang.flag} alt={lang.label} className="w-full h-full" />
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           )}
         </div>
       </nav>
 
-      <DemoModal 
-        isOpen={isDemoModalOpen} 
-        onClose={() => setIsDemoModalOpen(false)} 
+      <DemoModal
+        isOpen={isDemoModalOpen}
+        onClose={() => setIsDemoModalOpen(false)}
       />
     </>
   );
