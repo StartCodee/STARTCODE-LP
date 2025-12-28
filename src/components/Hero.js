@@ -23,18 +23,23 @@ const Hero = () => {
           <div className="space-y-6">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
               {t("hero.titlePrefix")}{" "}
-              <RotatingText
-                texts={t("hero.rotating")}
-                mainClassName="px-2 sm:px-2 md:px-3 bg-[#5e4bf5] text-white overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg inline-flex items-center"
-                staggerFrom={"last"}
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                exit={{ y: "-120%" }}
-                staggerDuration={0.025}
-                splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
-                transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                rotationInterval={2000}
-              />
+              {/* Grup ini bikin "Digital" tidak kepisah dari rotating */}
+              <span className="inline-flex items-center gap-2 whitespace-nowrap">
+                <span>{t("hero.staticWord")}</span>
+
+                <RotatingText
+                  texts={t("hero.rotating")}
+                  mainClassName="px-2 sm:px-2 md:px-3 bg-[#5e4bf5] text-white overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg inline-flex items-center whitespace-nowrap"
+                  staggerFrom={"last"}
+                  initial={{ y: "100%" }}
+                  animate={{ y: 0 }}
+                  exit={{ y: "-120%" }}
+                  staggerDuration={0.025}
+                  splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+                  transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                  rotationInterval={2000}
+                />
+              </span>
             </h1>
 
             <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
