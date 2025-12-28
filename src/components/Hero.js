@@ -8,7 +8,7 @@ const Hero = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="relative min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] flex items-center justify-center overflow-hidden pb-10">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-background/50">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(94,75,245,0.1)_0%,transparent_50%)]" />
