@@ -14,15 +14,19 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <Hero />
-      <TrustedBy />
-      <About />
-      <Services />
-      <Portfolio />
-      <Process />
-      <Metrics />
-      <CTAStrip />
-      <Footer />
+
+      {/* Penting: offset karena Navbar fixed */}
+      <main className="pt-20 lg:pt-20">
+        <Hero />
+        <TrustedBy />
+        <About />
+        <Services />
+        <Portfolio />
+        <Process />
+        <Metrics />
+        <CTAStrip />
+        <Footer />
+      </main>
     </div>
   );
 };

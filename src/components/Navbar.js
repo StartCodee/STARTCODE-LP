@@ -1,36 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { useTheme } from "../contexts/ThemeContext";
+import { useLanguage } from "../contexts/LanguageContext";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import DemoModal from "./DemoModal";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
+  const { language, setLanguage, t } = useLanguage();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
-  const [language, setLanguage] = useState("en"); // default English
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navItems = [
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Portfolio", href: "#portfolio" },
-    { name: "Process", href: "#process" },
-    { name: "Contact", href: "#contact" },
+    { key: "about", href: "#about" },
+    { key: "services", href: "#services" },
+    { key: "portfolio", href: "#portfolio" },
+    { key: "process", href: "#process" },
+    { key: "contact", href: "#contact" },
   ];
 
   const languages = [
     { code: "en", label: "English", flag: "/assets/flags/eng.svg", available: true },
-    { code: "id", label: "Indonesia", flag: "/assets/flags/ind.png", available: false }, // belum tersedia
+    { code: "id", label: "Indonesia", flag: "/assets/flags/ind.png", available: true },
   ];
 
   return (
@@ -55,36 +54,32 @@ const Navbar = () => {
               <span className="text-xl font-bold">StartCode</span>
             </div>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Nav */}
             <div className="hidden lg:flex items-center space-x-8">
               {navItems.map((item) => (
                 <a
-                  key={item.name}
+                  key={item.key}
                   href={item.href}
                   className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
                 >
-                  {item.name}
+                  {t(`nav.${item.key}`)}
                 </a>
               ))}
             </div>
 
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center space-x-4">
-              {/* Theme toggle */}
+              {/* Theme */}
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={toggleTheme}
                 className="w-9 h-9 rounded-full"
               >
-                {theme === "dark" ? (
-                  <Sun className="h-4 w-4" />
-                ) : (
-                  <Moon className="h-4 w-4" />
-                )}
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </Button>
 
-              {/* Language switch */}
+              {/* Language */}
               <div className="flex items-center space-x-2">
                 {languages.map((lang) => (
                   <button
@@ -92,10 +87,9 @@ const Navbar = () => {
                     onClick={() => lang.available && setLanguage(lang.code)}
                     disabled={!lang.available}
                     className={`w-8 h-8 rounded-full overflow-hidden border ${
-                      lang.code === language
-                        ? "border-[#5e4bf5]" // highlight selected
-                        : "border-transparent"
+                      lang.code === language ? "border-[#5e4bf5]" : "border-transparent"
                     } ${!lang.available ? "opacity-40 cursor-not-allowed" : "hover:opacity-80"}`}
+                    aria-label={lang.label}
                   >
                     <img src={lang.flag} alt={lang.label} className="w-full h-full" />
                   </button>
@@ -106,11 +100,11 @@ const Navbar = () => {
                 onClick={() => setIsDemoModalOpen(true)}
                 className="bg-[#5e4bf5] hover:bg-[#5038d4] text-white px-6"
               >
-                Request Demo
+                {t("common.requestDemo")}
               </Button>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Actions */}
             <div className="lg:hidden flex items-center space-x-2">
               <Button
                 variant="ghost"
@@ -118,23 +112,16 @@ const Navbar = () => {
                 onClick={toggleTheme}
                 className="w-9 h-9 rounded-full"
               >
-                {theme === "dark" ? (
-                  <Sun className="h-4 w-4" />
-                ) : (
-                  <Moon className="h-4 w-4" />
-                )}
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </Button>
+
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="w-9 h-9 rounded-full"
               >
-                {isMobileMenuOpen ? (
-                  <X className="h-5 w-5" />
-                ) : (
-                  <Menu className="h-5 w-5" />
-                )}
+                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
             </div>
           </div>
@@ -145,14 +132,15 @@ const Navbar = () => {
               <div className="px-4 py-6 space-y-4">
                 {navItems.map((item) => (
                   <a
-                    key={item.name}
+                    key={item.key}
                     href={item.href}
                     className="block text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    {item.name}
+                    {t(`nav.${item.key}`)}
                   </a>
                 ))}
+
                 <Button
                   onClick={() => {
                     setIsDemoModalOpen(true);
@@ -160,10 +148,10 @@ const Navbar = () => {
                   }}
                   className="w-full bg-[#5e4bf5] hover:bg-[#5038d4] text-white mt-4"
                 >
-                  Request Demo
+                  {t("common.requestDemo")}
                 </Button>
 
-                {/* Mobile Language Switch */}
+                {/* Mobile Language */}
                 <div className="flex items-center space-x-2 mt-4">
                   {languages.map((lang) => (
                     <button
@@ -171,10 +159,9 @@ const Navbar = () => {
                       onClick={() => lang.available && setLanguage(lang.code)}
                       disabled={!lang.available}
                       className={`w-8 h-8 rounded-full overflow-hidden border ${
-                        lang.code === language
-                          ? "border-[#5e4bf5]"
-                          : "border-transparent"
+                        lang.code === language ? "border-[#5e4bf5]" : "border-transparent"
                       } ${!lang.available ? "opacity-40 cursor-not-allowed" : "hover:opacity-80"}`}
+                      aria-label={lang.label}
                     >
                       <img src={lang.flag} alt={lang.label} className="w-full h-full" />
                     </button>
@@ -186,10 +173,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <DemoModal
-        isOpen={isDemoModalOpen}
-        onClose={() => setIsDemoModalOpen(false)}
-      />
+      <DemoModal isOpen={isDemoModalOpen} onClose={() => setIsDemoModalOpen(false)} />
     </>
   );
 };

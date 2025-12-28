@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, ArrowRight, Instagram } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, ArrowRight, Instagram } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
+import { useLanguage } from "../contexts/LanguageContext";
 
 const Footer = () => {
   const { toast } = useToast();
+  const { t } = useLanguage();
+
   const [email, setEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -15,49 +18,37 @@ const Footer = () => {
     if (!email) return;
 
     setIsSubscribing(true);
-
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setIsSubscribing(false);
     setEmail("");
-    
+
     toast({
-      title: "Subscribed!",
-      description: "You've been added to our newsletter. Thank you!",
+      title: t("footer.toast.subscribedTitle"),
+      description: t("footer.toast.subscribedDesc"),
     });
   };
 
   const quickLinks = [
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Portfolio", href: "#portfolio" },
-    { name: "Process", href: "#process" },
-    { name: "Contact", href: "#contact" }
+    { name: t("nav.about"), href: "#about" },
+    { name: t("nav.services"), href: "#services" },
+    { name: t("nav.portfolio"), href: "#portfolio" },
+    { name: t("nav.process"), href: "#process" },
+    { name: t("nav.contact"), href: "#contact" },
   ];
 
-  const services = [
-    { name: "Web Development", href: "#" },
-    { name: "Mobile Apps", href: "#" },
-    { name: "Custom Solutions", href: "#" },
-    { name: "Enterprise Software", href: "#" },
-    { name: "UI/UX Design", href: "#" },
-    { name: "Consulting", href: "#" }
-  ];
+  const servicesLinks = t("footer.servicesLinks").map((name) => ({ name, href: "#" }));
 
   const socialLinks = [
-      { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com/company/startcodetech", name: "LinkedIn" },
-      { icon: <Instagram className="h-5 w-5" />, href: "https://www.instagram.com/startcodetech", name: "Instagram" },
-      { icon: <Phone className="h-5 w-5" />, href: "https://wa.me/62895331493506", name: "WhatsApp" },
+    { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com/company/startcodetech", name: "LinkedIn" },
+    { icon: <Instagram className="h-5 w-5" />, href: "https://www.instagram.com/startcodetech", name: "Instagram" },
+    { icon: <Phone className="h-5 w-5" />, href: "https://wa.me/62895331493506", name: "WhatsApp" },
   ];
 
   return (
-    <footer id="contact" className="bg-muted/30 border-t border-border">
+    <footer id="contact" className="bg-muted/30 border-t border-border scroll-mt-24">
       <div className="container mx-auto px-4 lg:px-8">
-        {/* Main Footer Content */}
         <div className="py-16 lg:py-20">
           <div className="grid lg:grid-cols-4 gap-12">
-            {/* Company Info */}
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-2 mb-6">
                 <div className="w-8 h-8 bg-gradient-to-br from-[#5e4bf5] to-[#7c3aed] rounded-lg flex items-center justify-center">
@@ -65,13 +56,9 @@ const Footer = () => {
                 </div>
                 <span className="text-xl font-bold">StartCode</span>
               </div>
-              
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                Transforming digital visions into exceptional software solutions. 
-                We help businesses innovate and grow through cutting-edge technology.
-              </p>
 
-              {/* Contact Info */}
+              <p className="text-muted-foreground mb-6 leading-relaxed">{t("footer.companyDesc")}</p>
+
               <div className="space-y-3">
                 <div className="flex items-center text-muted-foreground">
                   <Mail className="h-4 w-4 mr-3 text-[#5e4bf5]" />
@@ -79,33 +66,32 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center text-muted-foreground">
                   <Phone className="h-4 w-4 mr-3 text-[#5e4bf5]" />
-                  {/* 0895331493506 */}
-                    +62 895-3314-93506 
+                  +62 895-3314-93506
                 </div>
-             
-               <div className="flex items-start gap-2 text-xs text-muted-foreground">
-  <MapPin className="shrink-0 mt-[3px] h-5 w-5 text-[#5e4bf5]" aria-hidden="true" />
-  <p className="leading-tight">Jakarta Office: Plaza Aminta, Jalan Let. Jen. TB Simatupang No.Kav.10, Lantai 5/504, RT.06/RW.14, Pd. Pinang, Kec. Kby. Lama, Kota Jakarta Selatan, DKI Jakarta 12310.</p>
-</div>
- 
-<div className="flex items-start gap-2 text-xs text-muted-foreground">
-  <MapPin className="shrink-0 mt-[3px] h-5 w-5 text-[#5e4bf5]" aria-hidden="true" />
-  <p className="leading-tight">Bogor Office: Kp. Baru Desa Wates Jaya, Kec. Cigombong, Kab. Bogor, Jawa Barat.</p>
-</div>
 
+                <div className="flex items-start gap-2 text-xs text-muted-foreground">
+                  <MapPin className="shrink-0 mt-[3px] h-5 w-5 text-[#5e4bf5]" aria-hidden="true" />
+                  <p className="leading-tight">
+                    Jakarta Office: Plaza Aminta, Jalan Let. Jen. TB Simatupang No.Kav.10, Lantai 5/504, RT.06/RW.14,
+                    Pd. Pinang, Kec. Kby. Lama, Kota Jakarta Selatan, DKI Jakarta 12310.
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-2 text-xs text-muted-foreground">
+                  <MapPin className="shrink-0 mt-[3px] h-5 w-5 text-[#5e4bf5]" aria-hidden="true" />
+                  <p className="leading-tight">
+                    Bogor Office: Kp. Baru Desa Wates Jaya, Kec. Cigombong, Kab. Bogor, Jawa Barat.
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Quick Links */}
             <div>
-              <h3 className="font-semibold text-lg mb-6">Quick Links</h3>
+              <h3 className="font-semibold text-lg mb-6">{t("footer.quickLinksTitle")}</h3>
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200"
-                    >
+                  <li key={link.href}>
+                    <a href={link.href} className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
                       {link.name}
                     </a>
                   </li>
@@ -113,16 +99,12 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Services */}
             <div>
-              <h3 className="font-semibold text-lg mb-6">Services</h3>
+              <h3 className="font-semibold text-lg mb-6">{t("footer.servicesTitle")}</h3>
               <ul className="space-y-3">
-                {services.map((service) => (
+                {servicesLinks.map((service) => (
                   <li key={service.name}>
-                    <a
-                      href={service.href}
-                      className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200"
-                    >
+                    <a href={service.href} className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
                       {service.name}
                     </a>
                   </li>
@@ -130,34 +112,26 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Newsletter */}
             <div>
-              <h3 className="font-semibold text-lg mb-6">Stay Updated</h3>
-              <p className="text-muted-foreground mb-6">
-                Subscribe to our newsletter for the latest tech insights and project updates.
-              </p>
-              
+              <h3 className="font-semibold text-lg mb-6">{t("footer.stayUpdatedTitle")}</h3>
+              <p className="text-muted-foreground mb-6">{t("footer.stayUpdatedDesc")}</p>
+
               <form onSubmit={handleNewsletterSubmit} className="space-y-4">
                 <Input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t("footer.emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                <Button
-                  type="submit"
-                  disabled={isSubscribing}
-                  className="w-full bg-[#5e4bf5] hover:bg-[#5038d4] text-white group"
-                >
-                  {isSubscribing ? "Subscribing..." : "Subscribe"}
+                <Button type="submit" disabled={isSubscribing} className="w-full bg-[#5e4bf5] hover:bg-[#5038d4] text-white group">
+                  {isSubscribing ? t("common.subscribing") : t("common.subscribe")}
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </form>
 
-              {/* Social Links */}
               <div className="mt-8">
-                <h4 className="font-medium mb-4">Follow Us</h4>
+                <h4 className="font-medium mb-4">{t("footer.followUsTitle")}</h4>
                 <div className="flex space-x-3">
                   {socialLinks.map((social) => (
                     <a
@@ -175,27 +149,24 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Footer Bottom */}
         <div className="py-6 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center space-x-4">
-              <p className="text-sm text-muted-foreground">
-                © 2024 StartCode. All rights reserved.
-              </p>
+              <p className="text-sm text-muted-foreground">{t("footer.copyright")}</p>
               <Badge variant="outline" className="text-xs">
-                Made with ❤️ in Indonesia
+                {t("footer.madeWith")}
               </Badge>
             </div>
-            
+
             <div className="flex items-center space-x-6 text-sm">
               <a href="#" className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
-                Privacy Policy
+                {t("common.privacyPolicy")}
               </a>
               <a href="#" className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
-                Terms of Service
+                {t("common.termsOfService")}
               </a>
               <a href="#" className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
-                Sitemap
+                {t("common.sitemap")}
               </a>
             </div>
           </div>
