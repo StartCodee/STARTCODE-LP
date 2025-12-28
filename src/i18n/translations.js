@@ -27,7 +27,8 @@ export const translations = {
 
     hero: {
         titlePrefix: "Revolutionize Your",
-        staticWord: "Digital",
+        staticPrefix: "Digital",
+        staticSuffix: "",
         rotating: ["Products", "Systems", "Solutions"],
       desc:
         "Transform your digital vision into reality with our cutting-edge development solutions. We craft exceptional web and mobile experiences that drive growth and exceed expectations.",
@@ -301,8 +302,9 @@ export const translations = {
 
     hero: {
         titlePrefix: "Revolusionerkan",
-        staticWord: "Digital",
-        rotating: ["Produk", "Sistem", "Solusi"],
+        staticPrefix: "",
+        staticSuffix: "Digital",
+        rotating: ["Solusi", "Sistem", "Produk"],
       desc:
         "Wujudkan visi digital Anda dengan solusi pengembangan modern. Kami membangun pengalaman web & mobile yang cepat, rapi, dan fokus pada pertumbuhan bisnis.",
       stats: {

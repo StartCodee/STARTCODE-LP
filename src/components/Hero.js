@@ -21,26 +21,31 @@ const Hero = () => {
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <div className="space-y-6">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
               {t("hero.titlePrefix")}{" "}
-              {/* Grup ini bikin "Digital" tidak kepisah dari rotating */}
-              <span className="inline-flex items-center gap-2 whitespace-nowrap">
-                <span>{t("hero.staticWord")}</span>
+              <span className="inline-flex items-center gap-2">
+                {/* Grup ini menjaga "X Digital" atau "Digital X" tetap nempel (tidak pecah sendiri) */}
+                <span className="inline-flex items-center gap-2 whitespace-nowrap">
+                  {t("hero.staticPrefix") ? <span>{t("hero.staticPrefix")}</span> : null}
 
-                <RotatingText
-                  texts={t("hero.rotating")}
-                  mainClassName="px-2 sm:px-2 md:px-3 bg-[#5e4bf5] text-white overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg inline-flex items-center whitespace-nowrap"
-                  staggerFrom={"last"}
-                  initial={{ y: "100%" }}
-                  animate={{ y: 0 }}
-                  exit={{ y: "-120%" }}
-                  staggerDuration={0.025}
-                  splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
-                  transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                  rotationInterval={2000}
-                />
+                  <RotatingText
+                    texts={t("hero.rotating")}
+                    mainClassName="px-2 sm:px-2 md:px-3 bg-[#5e4bf5] text-white overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg inline-flex items-center whitespace-nowrap"
+                    staggerFrom={"last"}
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    exit={{ y: "-120%" }}
+                    staggerDuration={0.025}
+                    splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+                    transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                    rotationInterval={2000}
+                  />
+
+                  {t("hero.staticSuffix") ? <span>{t("hero.staticSuffix")}</span> : null}
+                </span>
               </span>
             </h1>
+
 
             <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               {t("hero.desc")}
@@ -88,11 +93,12 @@ const Hero = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="hidden md:block absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
         <div className="w-6 h-10 border-2 border-muted-foreground rounded-full flex justify-center">
           <div className="w-1 h-3 bg-muted-foreground rounded-full mt-2 animate-pulse"></div>
         </div>
       </div>
+
     </section>
   );
 };
