@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Seo from "../components/Seo";
 
 const Section = ({ title, children }) => (
   <section className="space-y-3">
@@ -13,6 +14,11 @@ export default function PrivacyPolicy() {
 
   return (
     <main className="min-h-screen bg-background">
+        <Seo
+        title="Kebijakan Privasi"
+        description="Kebijakan Privasi StartCode Indonesia terkait pengumpulan, penggunaan, dan perlindungan data."
+        />
+
       <div className="container mx-auto px-4 lg:px-8 py-14 max-w-3xl">
         <div className="mb-8">
           <p className="text-sm text-muted-foreground mb-2">

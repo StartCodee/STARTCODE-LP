@@ -16,20 +16,55 @@ const Footer = () => {
   const [email, setEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
 
-  const handleNewsletterSubmit = async (e) => {
-    e.preventDefault();
-    if (!email) return;
 
-    setIsSubscribing(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSubscribing(false);
+
+
+
+  const encode = (data) =>
+  Object.keys(data)
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+    .join("&");
+
+const handleNewsletterSubmit = async (e) => {
+  e.preventDefault();
+  if (!email) return;
+
+  setIsSubscribing(true);
+
+  try {
+    const payload = {
+      "form-name": "newsletter",
+      email,
+      "bot-field": "", // honeypot
+    };
+
+    const res = await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode(payload),
+    });
+
+    if (!res.ok) throw new Error(`Submit failed: ${res.status}`);
+
     setEmail("");
-
     toast({
       title: t("footer.toast.subscribedTitle"),
       description: t("footer.toast.subscribedDesc"),
     });
-  };
+  } catch (err) {
+    toast({
+      title: "Gagal subscribe",
+      description: "Coba lagi ya, atau hubungi kami via email.",
+      variant: "destructive",
+    });
+  } finally {
+    setIsSubscribing(false);
+  }
+};
+
+
+
+
 
   const quickLinks = [
     { name: t("nav.about"), href: "#about" },
@@ -119,19 +154,36 @@ const Footer = () => {
               <h3 className="font-semibold text-lg mb-6">{t("footer.stayUpdatedTitle")}</h3>
               <p className="text-muted-foreground mb-6">{t("footer.stayUpdatedDesc")}</p>
 
-              <form onSubmit={handleNewsletterSubmit} className="space-y-4">
-                <Input
-                  type="email"
-                  placeholder={t("footer.emailPlaceholder")}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <Button type="submit" disabled={isSubscribing} className="w-full bg-[#5e4bf5] hover:bg-[#5038d4] text-white group">
-                  {isSubscribing ? t("common.subscribing") : t("common.subscribe")}
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </Button>
-              </form>
+            <form
+              name="newsletter"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              onSubmit={handleNewsletterSubmit}
+              className="space-y-4"
+            >
+              <input type="hidden" name="form-name" value="newsletter" />
+              <p className="hidden">
+                <label>
+                  Don’t fill this out: <input name="bot-field" />
+                </label>
+              </p>
+
+              <Input
+                name="email"
+                type="email"
+                placeholder={t("footer.emailPlaceholder")}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+
+              <Button type="submit" disabled={isSubscribing} className="w-full bg-[#5e4bf5] hover:bg-[#5038d4] text-white group">
+                {isSubscribing ? t("common.subscribing") : t("common.subscribe")}
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Button>
+            </form>
+
 
               <div className="mt-8">
                 <h4 className="font-medium mb-4">{t("footer.followUsTitle")}</h4>
@@ -140,6 +192,8 @@ const Footer = () => {
                     <a
                       key={social.name}
                       href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="w-10 h-10 bg-muted hover:bg-[#5e4bf5] hover:text-white rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
                       aria-label={social.name}
                     >
