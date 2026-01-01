@@ -92,7 +92,7 @@ const Navbar = () => {
             </a>
 
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center space-x-8" style={{marginLeft:'130px'}}>
               {navItems.map((item) => (
                 <a
                   key={item.key}
