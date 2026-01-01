@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Google Tag Manager (place as high in <head> as possible) -->
-  <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KPGLG74R');
-  </script>
-  <!-- End Google Tag Manager -->
-
   <!-- Character Set & Viewport -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,6 +10,7 @@
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
 
+  <!-- Theme/SEO basics -->
   <meta name="theme-color" content="#5e4bf5" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
 
@@ -28,37 +19,34 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/startcode.png" />
   <link rel="manifest" href="/manifest.json" />
 
-  <link rel="canonical" href="https://startcode-app.netlify.app/" />
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+  <!-- Canonical + Sitemap -->
+  <link rel="canonical" href="https://startcode.id/" />
+  <link rel="sitemap" type="application/xml" href="https://startcode.id/sitemap.xml" />
 
-  <title>StartCode Indonesia | Digital Solutions & IT Consultancy</title>
+  <!-- Default Title/Desc (akan ditimpa per halaman oleh Helmet) -->
+  <title>Digital Solutions & IT Consultancy | StartCode Indonesia</title>
   <meta
     name="description"
     content="StartCode Indonesia menyediakan solusi digital inovatif: pengembangan website, aplikasi mobile, enterprise software, dan produk berbasis AI untuk mempercepat transformasi bisnis."
   />
-  <meta
-    name="keywords"
-    content="StartCode, digital solutions, IT consultancy, web development, mobile apps, enterprise software, AI, Laravel, Next.js, cloud"
-  />
-  <meta name="author" content="StartCode Indonesia" />
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="StartCode Indonesia | Digital Solutions & IT Consultancy" />
+  <!-- Open Graph (default) -->
+  <meta property="og:title" content="Digital Solutions & IT Consultancy | StartCode Indonesia" />
   <meta property="og:description" content="Partner transformasi digital di Indonesia: web & mobile development, enterprise solutions, dan produk AI." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://startcode-app.netlify.app/" />
+  <meta property="og:url" content="https://startcode.id/" />
   <meta property="og:site_name" content="StartCode Indonesia" />
   <meta property="og:locale" content="id_ID" />
-  <meta property="og:image" content="https://startcode-app.netlify.app/startcode-og.png" />
+  <meta property="og:image" content="https://startcode.id/startcode-og.png" />
   <meta property="og:image:alt" content="StartCode Indonesia - Digital Solutions" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
-  <!-- Twitter Card -->
+  <!-- Twitter Card (default) -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="StartCode Indonesia | Digital Solutions & IT Consultancy" />
+  <meta name="twitter:title" content="Digital Solutions & IT Consultancy | StartCode Indonesia" />
   <meta name="twitter:description" content="Transform your business with StartCode: web, mobile, and enterprise IT solutions." />
-  <meta name="twitter:image" content="https://startcode-app.netlify.app/startcode-og.png" />
+  <meta name="twitter:image" content="https://startcode.id/startcode-og.png" />
   <meta name="twitter:site" content="@startcodeid" />
 
   <!-- Structured Data (JSON-LD) -->
@@ -69,8 +57,8 @@
         {
           "@type": "Organization",
           "name": "StartCode Indonesia",
-          "url": "https://startcode-app.netlify.app/",
-          "logo": "https://startcode-app.netlify.app/startcode.png",
+          "url": "https://startcode.id/",
+          "logo": "https://startcode.id/startcode.png",
           "description": "StartCode Indonesia menyediakan solusi digital inovatif: pengembangan website, aplikasi mobile, enterprise software, dan produk berbasis AI.",
           "email": "hello@startcode.id",
           "telephone": "+62895331493506",
@@ -108,18 +96,15 @@
         {
           "@type": "WebSite",
           "name": "StartCode Indonesia",
-          "url": "https://startcode-app.netlify.app/"
+          "url": "https://startcode.id/"
         }
       ]
     }
   </script>
-
-  <!-- (Optional) perf -->
-  <link rel="preconnect" href="https://www.googletagmanager.com" />
 </head>
 
 <body>
-  <!-- Google Tag Manager (noscript) - place immediately after opening <body> -->
+  <!-- Google Tag Manager (noscript) - ini hanya aktif kalau JS mati -->
   <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KPGLG74R"
       height="0" width="0" style="display:none;visibility:hidden"></iframe>
@@ -142,7 +127,25 @@
     <input type="email" name="email" />
   </form>
 
-  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <noscript>Aktifkan JavaScript untuk menjalankan aplikasi ini.</noscript>
   <div id="root"></div>
+
+  <!-- ✅ Defer GTM: tidak render-blocking -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+
+    (function () {
+      function loadGTM() {
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtm.js?id=GTM-KPGLG74R";
+        document.head.appendChild(s);
+      }
+
+      if ("requestIdleCallback" in window) requestIdleCallback(loadGTM, { timeout: 2000 });
+      else window.addEventListener("load", loadGTM);
+    })();
+  </script>
 </body>
 </html>

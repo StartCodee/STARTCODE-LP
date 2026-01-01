@@ -1,15 +1,18 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "@dr.pogodin/react-helmet";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import LandingPage from "./pages/LandingPage";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
-import Sitemap from "./pages/Sitemap";
-import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import TrackPageView from "./components/TrackPageView";
 import { Toaster } from "./components/ui/toaster";
 import "./App.css";
+
+// lazy untuk halaman selain landing
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const Sitemap = lazy(() => import("./pages/Sitemap"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
   return (
@@ -18,14 +21,19 @@ function App() {
         <div className="App min-h-screen bg-background text-foreground transition-colors">
           <BrowserRouter>
             <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/terms-of-service" element={<TermsOfService />} />
-              <Route path="/sitemap" element={<Sitemap />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <TrackPageView />
+
+            <Suspense fallback={null}>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/sitemap" element={<Sitemap />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
           </BrowserRouter>
+
           <Toaster />
         </div>
       </ThemeProvider>
