@@ -5,6 +5,9 @@ import { Badge } from "./ui/badge";
 import { Mail, Phone, MapPin, Linkedin, ArrowRight, Instagram } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
 import { useLanguage } from "../contexts/LanguageContext";
+import { Link } from "react-router-dom";
+
+
 
 const Footer = () => {
   const { toast } = useToast();
@@ -158,17 +161,19 @@ const Footer = () => {
               </Badge>
             </div>
 
-            <div className="flex items-center space-x-6 text-sm">
-              <a href="#" className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
-                {t("common.privacyPolicy")}
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
-                {t("common.termsOfService")}
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
-                {t("common.sitemap")}
-              </a>
-            </div>
+                <div className="flex items-center space-x-6 text-sm">
+                <Link to="/privacy-policy" className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
+                  {t("common.privacyPolicy")}
+                </Link>
+                <Link to="/terms-of-service" className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
+                  {t("common.termsOfService")}
+                </Link>
+                <Link to="/sitemap" className="text-muted-foreground hover:text-[#5e4bf5] transition-colors duration-200">
+                  {t("common.sitemap")}
+                </Link>
+              </div>
+
+
           </div>
         </div>
       </div>
