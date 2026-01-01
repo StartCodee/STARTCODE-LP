@@ -1,4 +1,5 @@
 const path = require("path");
+const Critters = require("critters-webpack-plugin");
 
 // Environment variable overrides
 const config = {
@@ -49,6 +50,16 @@ module.exports = {
           ],
         };
       }
+
+      webpackConfig.plugins.push(
+        new Critters({
+          // Inline CSS yang dipakai above-the-fold
+          preload: "swap",       // sisa CSS di-load non-blocking
+          pruneSource: true,     // buang CSS yang sudah di-inline dari file utama
+          compress: true,
+        })
+      );
+
 
       return webpackConfig;
     },

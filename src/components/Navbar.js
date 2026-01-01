@@ -15,11 +15,31 @@ const Navbar = () => {
 
   const mobileMenuId = useId();
 
+  // useEffect(() => {
+  //   const handleScroll = () => setIsScrolled(window.scrollY > 20);
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
+
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 20);
+        ticking = false;
+      });
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
 
   const navItems = [
     { key: "about", href: "#about" },
@@ -61,8 +81,8 @@ const Navbar = () => {
             <a href="/" className="flex items-center space-x-2" aria-label="StartCode Home">
               <img
                 alt="StartCode logo"
-                width={56}
-                height={56}
+                width={32}
+                height={32}
                 src="/assets/optimized/scode-64.webp"
                 srcSet="/assets/optimized/scode-64.webp 1x, /assets/optimized/scode-112.webp 2x"
                 style={{ borderRadius: 10 }}
