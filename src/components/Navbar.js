@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId } from "react";
 import { Button } from "./ui/button";
 import { useTheme } from "../contexts/ThemeContext";
 import { useLanguage } from "../contexts/LanguageContext";
@@ -13,9 +13,11 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
 
+  const mobileMenuId = useId();
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -27,14 +29,26 @@ const Navbar = () => {
     { key: "contact", href: "#contact" },
   ];
 
+  // ✅ Flag Indonesia pakai versi square optimized (30/60) supaya aspect ratio match
+  // Pastikan file ini ada: /public/assets/flags/optimized/ind-30.png dan ind-60.png
   const languages = [
-    { code: "en", label: "English", flag: "/assets/flags/eng.svg", available: true },
-    { code: "id", label: "Indonesia", flag: "/assets/flags/ind.png", available: true },
+    { code: "en", label: "English", flag: "/assets/flags/eng.svg", available: true, type: "svg" },
+    {
+      code: "id",
+      label: "Indonesia",
+      flag: "/assets/flags/optimized/ind-30.png",
+      flag2x: "/assets/flags/optimized/ind-60.png",
+      available: true,
+      type: "raster",
+    },
   ];
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <>
       <nav
+        aria-label="Primary"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
             ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm"
@@ -44,17 +58,18 @@ const Navbar = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <div className="flex items-center space-x-2">
+            <a href="/" className="flex items-center space-x-2" aria-label="StartCode Home">
               <img
-                alt="Logo"
+                alt="StartCode logo"
                 width={56}
                 height={56}
                 src="/assets/optimized/scode-64.webp"
                 srcSet="/assets/optimized/scode-64.webp 1x, /assets/optimized/scode-112.webp 2x"
                 style={{ borderRadius: 10 }}
+                decoding="async"
               />
               <span className="text-xl font-bold">StartCode</span>
-            </div>
+            </a>
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center space-x-8">
@@ -77,23 +92,50 @@ const Navbar = () => {
                 size="icon"
                 onClick={toggleTheme}
                 className="w-9 h-9 rounded-full"
+                aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
               >
-                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                {theme === "dark" ? (
+                  <Sun className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <Moon className="h-4 w-4" aria-hidden="true" />
+                )}
               </Button>
 
               {/* Language */}
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2" aria-label="Language switcher">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
+                    type="button"
                     onClick={() => lang.available && setLanguage(lang.code)}
                     disabled={!lang.available}
                     className={`w-8 h-8 rounded-full overflow-hidden border ${
                       lang.code === language ? "border-[#5e4bf5]" : "border-transparent"
                     } ${!lang.available ? "opacity-40 cursor-not-allowed" : "hover:opacity-80"}`}
-                    aria-label={lang.label}
+                    aria-label={`Switch language to ${lang.label}`}
+                    aria-pressed={lang.code === language}
                   >
-                    <img src={lang.flag} alt={lang.label} className="w-full h-full" />
+                    {lang.type === "svg" ? (
+                      <img
+                        src={lang.flag}
+                        alt="" /* icon-only; name already via aria-label */
+                        className="w-full h-full"
+                        width={32}
+                        height={32}
+                        decoding="async"
+                      />
+                    ) : (
+                      <img
+                        src={lang.flag}
+                        srcSet={`${lang.flag} 1x, ${lang.flag2x} 2x`}
+                        sizes="32px"
+                        alt=""
+                        className="w-full h-full object-cover"
+                        width={32}
+                        height={32}
+                        decoding="async"
+                      />
+                    )}
                   </button>
                 ))}
               </div>
@@ -101,6 +143,7 @@ const Navbar = () => {
               <Button
                 onClick={() => setIsDemoModalOpen(true)}
                 className="bg-[#5e4bf5] hover:bg-[#5038d4] text-white px-6"
+                aria-label={t("common.requestDemo")}
               >
                 {t("common.requestDemo")}
               </Button>
@@ -113,31 +156,46 @@ const Navbar = () => {
                 size="icon"
                 onClick={toggleTheme}
                 className="w-9 h-9 rounded-full"
+                aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
               >
-                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                {theme === "dark" ? (
+                  <Sun className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <Moon className="h-4 w-4" aria-hidden="true" />
+                )}
               </Button>
 
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                onClick={() => setIsMobileMenuOpen((v) => !v)}
                 className="w-9 h-9 rounded-full"
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls={mobileMenuId}
               >
-                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                {isMobileMenuOpen ? (
+                  <X className="h-5 w-5" aria-hidden="true" />
+                ) : (
+                  <Menu className="h-5 w-5" aria-hidden="true" />
+                )}
               </Button>
             </div>
           </div>
 
           {/* Mobile Menu */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden bg-background/95 backdrop-blur-md border-t border-border">
+            <div
+              id={mobileMenuId}
+              className="lg:hidden bg-background/95 backdrop-blur-md border-t border-border"
+            >
               <div className="px-4 py-6 space-y-4">
                 {navItems.map((item) => (
                   <a
                     key={item.key}
                     href={item.href}
                     className="block text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                   >
                     {t(`nav.${item.key}`)}
                   </a>
@@ -146,26 +204,52 @@ const Navbar = () => {
                 <Button
                   onClick={() => {
                     setIsDemoModalOpen(true);
-                    setIsMobileMenuOpen(false);
+                    closeMobileMenu();
                   }}
                   className="w-full bg-[#5e4bf5] hover:bg-[#5038d4] text-white mt-4"
+                  aria-label={t("common.requestDemo")}
                 >
                   {t("common.requestDemo")}
                 </Button>
 
                 {/* Mobile Language */}
-                <div className="flex items-center space-x-2 mt-4">
+                <div className="flex items-center space-x-2 mt-4" aria-label="Language switcher">
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
-                      onClick={() => lang.available && setLanguage(lang.code)}
+                      type="button"
+                      onClick={() => {
+                        if (lang.available) setLanguage(lang.code);
+                        closeMobileMenu();
+                      }}
                       disabled={!lang.available}
                       className={`w-8 h-8 rounded-full overflow-hidden border ${
                         lang.code === language ? "border-[#5e4bf5]" : "border-transparent"
                       } ${!lang.available ? "opacity-40 cursor-not-allowed" : "hover:opacity-80"}`}
-                      aria-label={lang.label}
+                      aria-label={`Switch language to ${lang.label}`}
+                      aria-pressed={lang.code === language}
                     >
-                      <img src={lang.flag} alt={lang.label} className="w-full h-full" />
+                      {lang.type === "svg" ? (
+                        <img
+                          src={lang.flag}
+                          alt=""
+                          className="w-full h-full"
+                          width={32}
+                          height={32}
+                          decoding="async"
+                        />
+                      ) : (
+                        <img
+                          src={lang.flag}
+                          srcSet={`${lang.flag} 1x, ${lang.flag2x} 2x`}
+                          sizes="32px"
+                          alt=""
+                          className="w-full h-full object-cover"
+                          width={32}
+                          height={32}
+                          decoding="async"
+                        />
+                      )}
                     </button>
                   ))}
                 </div>
