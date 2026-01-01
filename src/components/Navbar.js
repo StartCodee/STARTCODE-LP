@@ -46,10 +46,12 @@ const Navbar = () => {
             {/* Logo */}
             <div className="flex items-center space-x-2">
               <img
-                src="/assets/scode.webp"
-                className="w-8 h-8"
-                style={{ borderRadius: "10px" }}
                 alt="Logo"
+                width={56}
+                height={56}
+                src="/assets/optimized/scode-64.webp"
+                srcSet="/assets/optimized/scode-64.webp 1x, /assets/optimized/scode-112.webp 2x"
+                style={{ borderRadius: 10 }}
               />
               <span className="text-xl font-bold">StartCode</span>
             </div>

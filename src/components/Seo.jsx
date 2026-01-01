@@ -4,11 +4,11 @@ import { useLocation } from "react-router-dom";
 
 const DEFAULTS = {
   siteName: "StartCode Indonesia",
-  baseUrl: "https://startcode-app.netlify.app", // ganti ke domain final nanti
+  baseUrl: "https://startcode.id", // ganti ke domain final nanti
   defaultTitle: "StartCode Indonesia | Digital Solutions & IT Consultancy",
   defaultDescription:
     "StartCode Indonesia menyediakan solusi digital: web, mobile, enterprise software, dan produk AI untuk mempercepat transformasi bisnis.",
-  defaultImage: "https://startcode-app.netlify.app/startcode-og.png",
+  defaultImage: "https://startcode.id/startcode-og.png",
   twitterSite: "@startcodeid",
 };
 

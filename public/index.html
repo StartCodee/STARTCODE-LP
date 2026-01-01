@@ -19,11 +19,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/startcode.png" />
   <link rel="manifest" href="/manifest.json" />
 
-  <!-- Canonical + Sitemap -->
-  <link rel="canonical" href="https://startcode.id/" />
+  <!-- Sitemap (boleh tetap) -->
   <link rel="sitemap" type="application/xml" href="https://startcode.id/sitemap.xml" />
 
-  <!-- Default Title/Desc (akan ditimpa per halaman oleh Helmet) -->
+  <!-- Default Title/Desc (ditimpa Helmet) -->
   <title>Digital Solutions & IT Consultancy | StartCode Indonesia</title>
   <meta
     name="description"
@@ -34,7 +33,6 @@
   <meta property="og:title" content="Digital Solutions & IT Consultancy | StartCode Indonesia" />
   <meta property="og:description" content="Partner transformasi digital di Indonesia: web & mobile development, enterprise solutions, dan produk AI." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://startcode.id/" />
   <meta property="og:site_name" content="StartCode Indonesia" />
   <meta property="og:locale" content="id_ID" />
   <meta property="og:image" content="https://startcode.id/startcode-og.png" />
@@ -104,12 +102,11 @@
 </head>
 
 <body>
-  <!-- Google Tag Manager (noscript) - ini hanya aktif kalau JS mati -->
+  <!-- GTM noscript (opsional) -->
   <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KPGLG74R"
       height="0" width="0" style="display:none;visibility:hidden"></iframe>
   </noscript>
-  <!-- End Google Tag Manager (noscript) -->
 
   <!-- Netlify Forms hidden templates -->
   <form name="demo-request" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
@@ -130,7 +127,7 @@
   <noscript>Aktifkan JavaScript untuk menjalankan aplikasi ini.</noscript>
   <div id="root"></div>
 
-  <!-- ✅ Defer GTM: tidak render-blocking -->
+  <!-- Defer GTM -->
   <script>
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
