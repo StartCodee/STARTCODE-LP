@@ -23,7 +23,7 @@ const LandingPage = () => {
         <Services />
         <Portfolio />
         <Process />
-        <Metrics />
+        {/* <Metrics /> */}
         <CTAStrip />
         <Footer />
       </main>
