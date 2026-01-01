@@ -1,5 +1,4 @@
 const path = require("path");
-const webpack = require("webpack");
 
 // Environment variable overrides
 const config = {
@@ -14,23 +13,12 @@ module.exports = {
     configure: (webpackConfig) => {
       const isProd = process.env.NODE_ENV === "production";
 
-      // pengaman: pastikan NODE_ENV ter-define
-      webpackConfig.plugins.push(
-        new webpack.DefinePlugin({
-          "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-        })
-      );
+      // ✅ JANGAN set resolve.conditionNames (biarkan default webpack)
+      // Karena kalau di-set kosong, package dengan "exports" bisa gagal resolve.
 
-      // ✅ bantu resolver pilih build "production" jika package pakai conditional exports
+      // (Opsional) Alias paksa production build untuk react-router jika kamu masih lihat dev path di bundle
       if (isProd) {
         webpackConfig.resolve = webpackConfig.resolve || {};
-        webpackConfig.resolve.conditionNames = webpackConfig.resolve.conditionNames || [];
-
-        if (!webpackConfig.resolve.conditionNames.includes("production")) {
-          webpackConfig.resolve.conditionNames.unshift("production");
-        }
-
-        // 🔧 paksa kalau ada import ke dist/development
         webpackConfig.resolve.alias = {
           ...(webpackConfig.resolve.alias || {}),
           "react-router/dist/development": "react-router/dist/production",
