@@ -82,4 +82,5 @@ module.exports = {
     "hover:shadow-[#5e4bf5]/10",
     "focus-within:ring-[#5e4bf5]/40",
   ],
+  
 };
